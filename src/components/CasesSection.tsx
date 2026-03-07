@@ -1,8 +1,13 @@
 import { useState } from 'react';
-import { companies, caseStudies } from '../data';
+import { useLang } from '../LangContext';
+import { ui, useLocalizedData } from '../translations';
 import CompanyGroup from './CompanyGroup';
 
 export default function CasesSection() {
+  const { lang } = useLang();
+  const t = ui[lang];
+  const { companies, caseStudies } = useLocalizedData();
+
   const [activeId, setActiveId] = useState<string>('all');
 
   const visibleCompanies =
@@ -15,17 +20,16 @@ export default function CasesSection() {
       {/* ── Section header ───────────────────────────────────────────── */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12 pt-24 pb-4">
         <p className="text-indigo-600 text-xs font-semibold tracking-widest uppercase mb-3">
-          Кейсы
+          {t.casesLabel}
         </p>
         <h2
           id="cases-heading"
           className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-4"
         >
-          Реальные ситуации. Реальные решения.
+          {t.casesHeading}
         </h2>
         <p className="text-slate-500 leading-relaxed mb-10">
-          Каждый кейс структурирован по схеме Ситуация → Задача →
-          Действия → Результаты с измеримыми итогами.
+          {t.casesDescription}
         </p>
 
         {/* ── Company filter tabs ──────────────────────────────────── */}
@@ -33,7 +37,7 @@ export default function CasesSection() {
           <div
             className="flex flex-wrap gap-2"
             role="tablist"
-            aria-label="Фильтр по компании"
+            aria-label={t.casesFilterAriaLabel}
           >
             <button
               role="tab"
@@ -45,7 +49,7 @@ export default function CasesSection() {
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
               }`}
             >
-              Все компании
+              {t.casesAllCompanies}
             </button>
             {companies.map((company) => (
               <button

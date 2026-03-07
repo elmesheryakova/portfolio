@@ -1,16 +1,6 @@
 import { useEffect, useState } from 'react';
-
-interface NavItem {
-  label: string;
-  id: string;
-}
-
-const navItems: NavItem[] = [
-  { label: 'О себе', id: 'summary' },
-  { label: 'Компетенции', id: 'competencies' },
-  { label: 'Кейсы', id: 'cases' },
-  { label: 'Моя ценность', id: 'bring' },
-];
+import { useLang } from '../LangContext';
+import { ui } from '../translations';
 
 export function scrollToSection(id: string) {
   // Signal collapsible groups to expand before scrolling
@@ -30,6 +20,9 @@ export function scrollToSection(id: string) {
 }
 
 export default function Nav() {
+  const { lang, toggle } = useLang();
+  const t = ui[lang];
+
   const [activeSection, setActiveSection] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
@@ -42,7 +35,7 @@ export default function Nav() {
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    navItems.forEach(({ id }) => {
+    t.navItems.forEach(({ id }) => {
       const el = document.getElementById(id);
       if (!el) return;
       const obs = new IntersectionObserver(
@@ -56,7 +49,7 @@ export default function Nav() {
     });
 
     return () => observers.forEach((obs) => obs.disconnect());
-  }, []);
+  }, [lang, t.navItems]);
 
   return (
     <header
@@ -68,7 +61,7 @@ export default function Nav() {
     >
       <nav
         className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12 h-16 flex items-center justify-between"
-        aria-label="Основная навигация"
+        aria-label={t.navAriaLabel}
       >
         <span className="text-sm font-semibold text-slate-900 tracking-wide whitespace-nowrap">
           Portfolio
@@ -76,7 +69,7 @@ export default function Nav() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1" role="list">
-          {navItems.map(({ label, id }) => (
+          {t.navItems.map(({ label, id }) => (
             <button
               key={id}
               role="listitem"
@@ -91,6 +84,15 @@ export default function Nav() {
               {label}
             </button>
           ))}
+
+          {/* Language toggle */}
+          <button
+            onClick={toggle}
+            className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 transition-colors"
+            aria-label={lang === 'ru' ? 'Switch to English' : 'Переключить на русский'}
+          >
+            {lang === 'ru' ? 'EN' : 'RU'}
+          </button>
         </div>
 
         {/* Mobile nav — scrollable row */}
@@ -98,7 +100,7 @@ export default function Nav() {
           className="md:hidden flex items-center gap-0.5 overflow-x-auto scrollbar-hide"
           role="list"
         >
-          {navItems.map(({ label, id }) => (
+          {t.navItems.map(({ label, id }) => (
             <button
               key={id}
               role="listitem"
@@ -113,6 +115,15 @@ export default function Nav() {
               {label}
             </button>
           ))}
+
+          {/* Language toggle mobile */}
+          <button
+            onClick={toggle}
+            className="flex-shrink-0 ml-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+            aria-label={lang === 'ru' ? 'Switch to English' : 'Переключить на русский'}
+          >
+            {lang === 'ru' ? 'EN' : 'RU'}
+          </button>
         </div>
       </nav>
     </header>

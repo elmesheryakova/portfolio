@@ -1,4 +1,5 @@
-import { competencies } from '../data';
+import { useLang } from '../LangContext';
+import { ui, useLocalizedData } from '../translations';
 import { scrollToSection } from './Nav';
 
 function handleCaseClick(anchor: string) {
@@ -6,7 +7,13 @@ function handleCaseClick(anchor: string) {
 }
 
 function CompetencyName({ name }: { name: string }) {
+  const { lang } = useLang();
   const [ru, en] = name.split('|').map((t) => t.trim());
+
+  if (lang === 'en') {
+    return <div className="font-semibold text-slate-700">{en || ru}</div>;
+  }
+
   return (
     <div>
       <div className="font-semibold text-slate-700">{ru}</div>
@@ -16,6 +23,10 @@ function CompetencyName({ name }: { name: string }) {
 }
 
 export default function CompetencyMatrix() {
+  const { lang } = useLang();
+  const t = ui[lang];
+  const { competencies } = useLocalizedData();
+
   return (
     <section
       id="competencies"
@@ -24,47 +35,47 @@ export default function CompetencyMatrix() {
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12">
         <p className="text-indigo-600 text-xs font-semibold tracking-widest uppercase mb-3">
-          Матрица компетенций
+          {t.competenciesLabel}
         </p>
         <h2
           id="competencies-heading"
           className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-4"
         >
-          Что умею и где это доказала
+          {t.competenciesHeading}
         </h2>
         <p className="text-slate-500 mb-14 leading-relaxed">
-          Каждая компетенция подкреплена реальным кейсом. Нажмите на название кейса, чтобы перейти к подробному разбору ниже.
+          {t.competenciesDescription}
         </p>
 
         {/* ── Desktop table (lg+) ──────────────────────────────────────── */}
         <div className="hidden lg:block">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <table className="w-full" aria-label="Матрица компетенций">
+            <table className="w-full" aria-label={t.competenciesTableAriaLabel}>
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/80">
                   <th
                     scope="col"
                     className="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider w-[18%]"
                   >
-                    Компетенция
+                    {t.colCompetency}
                   </th>
                   <th
                     scope="col"
                     className="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider w-[27%]"
                   >
-                    Что это показывает
+                    {t.colDemonstrates}
                   </th>
                   <th
                     scope="col"
                     className="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider w-[32%]"
                   >
-                    Ключевые доказательства
+                    {t.colEvidence}
                   </th>
                   <th
                     scope="col"
                     className="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider w-[23%]"
                   >
-                    Кейс
+                    {t.colCase}
                   </th>
                 </tr>
               </thead>
@@ -143,7 +154,7 @@ export default function CompetencyMatrix() {
               <div className="space-y-3 mb-4">
                 <div>
                   <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
-                    Что это показывает
+                    {t.colDemonstrates}
                   </p>
                   <p className="text-sm text-slate-600 leading-relaxed">
                     {comp.demonstrates}
@@ -151,7 +162,7 @@ export default function CompetencyMatrix() {
                 </div>
                 <div>
                   <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
-                    Ключевые доказательства
+                    {t.colEvidence}
                   </p>
                   <ul className="space-y-1">
                     {comp.evidence.map((item, j) => (

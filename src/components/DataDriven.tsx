@@ -1,3 +1,6 @@
+import { useLang } from '../LangContext';
+import { ui } from '../translations';
+
 const metrics = [
   {
     icon: '📉',
@@ -5,7 +8,6 @@ const metrics = [
     labelEn: 'System Reliability',
     from: '95%',
     to: '99%',
-    context: 'Стабильная работа на production',
   },
   {
     icon: '⏱',
@@ -13,7 +15,6 @@ const metrics = [
     labelEn: 'Monthly Downtime',
     from: '~36ч',
     to: '~8ч',
-    context: 'Простоев в месяц — в 4.5× меньше',
   },
   {
     icon: '🔧',
@@ -21,11 +22,13 @@ const metrics = [
     labelEn: 'Bug & Support Time',
     from: '40%',
     to: '20%',
-    context: 'Времени разработки на багфиксы',
   },
 ];
 
 export default function DataDriven() {
+  const { lang } = useLang();
+  const t = ui[lang];
+
   return (
     <section
       id="data-driven"
@@ -35,31 +38,35 @@ export default function DataDriven() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12">
         <div className="mb-12">
           <p className="text-indigo-400 text-xs font-semibold tracking-widest uppercase mb-3">
-            Решения на основе данных · Data-Driven Decisions
+            {t.dataDrivenLabel}
           </p>
           <h2
             id="data-driven-heading"
             className="text-3xl md:text-4xl font-bold text-white leading-tight mb-3"
           >
-            Снижаю баги и простои — бизнес экономит
+            {t.dataDrivenHeading}
           </h2>
           <p className="text-slate-400 text-base leading-relaxed max-w-xl">
-            Управляю качеством через метрики, а не ощущения. Вот результат.
+            {t.dataDrivenSubheading}
           </p>
         </div>
 
         <div className="grid sm:grid-cols-3 gap-4 md:gap-6">
-          {metrics.map((m) => (
+          {metrics.map((m, i) => (
             <div
-              key={m.label}
+              key={m.labelEn}
               className="rounded-2xl border border-slate-700 bg-slate-800/60 px-7 py-8 flex flex-col gap-5"
             >
               {/* Icon + label */}
               <div className="flex items-center gap-3">
                 <span className="text-2xl leading-none">{m.icon}</span>
                 <div>
-                  <div className="text-white font-semibold text-sm leading-tight">{m.label}</div>
-                  <div className="text-slate-500 text-xs">{m.labelEn}</div>
+                  <div className="text-white font-semibold text-sm leading-tight">
+                    {lang === 'en' ? m.labelEn : m.label}
+                  </div>
+                  {lang === 'ru' && (
+                    <div className="text-slate-500 text-xs">{m.labelEn}</div>
+                  )}
                 </div>
               </div>
 
@@ -72,7 +79,7 @@ export default function DataDriven() {
 
               {/* Context */}
               <p className="text-slate-400 text-sm leading-snug border-t border-slate-700 pt-4">
-                {m.context}
+                {t.dataDrivenMetricContexts[i]}
               </p>
             </div>
           ))}

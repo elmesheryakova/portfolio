@@ -1,4 +1,6 @@
 import { CaseStudyData } from '../data';
+import { useLang } from '../LangContext';
+import { ui } from '../translations';
 import { scrollToSection } from './Nav';
 
 interface Props {
@@ -8,6 +10,9 @@ interface Props {
 }
 
 export default function CaseStudy({ data, isLast, hideBadge }: Props) {
+  const { lang } = useLang();
+  const t = ui[lang];
+
   return (
     <article
       id={data.id}
@@ -37,7 +42,7 @@ export default function CaseStudy({ data, isLast, hideBadge }: Props) {
           {/* Situation */}
           <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
             <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">
-              Ситуация
+              {t.caseStudySituation}
             </p>
             <p className="text-sm text-slate-700 leading-relaxed">
               {data.situation}
@@ -47,7 +52,7 @@ export default function CaseStudy({ data, isLast, hideBadge }: Props) {
           {/* Task */}
           <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
             <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">
-              Задача
+              {t.caseStudyTask}
             </p>
             <p className="text-sm text-slate-700 leading-relaxed">
               {data.task}
@@ -57,7 +62,7 @@ export default function CaseStudy({ data, isLast, hideBadge }: Props) {
           {/* Actions */}
           <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
             <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">
-              Действия
+              {t.caseStudyActions}
             </p>
             <ul className="space-y-2.5">
               {data.actions.map((action, i) => (
@@ -75,7 +80,7 @@ export default function CaseStudy({ data, isLast, hideBadge }: Props) {
           {/* Results */}
           <div className="bg-indigo-50 rounded-xl p-6 border border-indigo-100">
             <p className="text-[10px] font-semibold text-indigo-400 uppercase tracking-widest mb-3">
-              Результаты
+              {t.caseStudyResults}
             </p>
             <ul className="space-y-2.5">
               {data.results.map((result, i) => (
@@ -92,7 +97,7 @@ export default function CaseStudy({ data, isLast, hideBadge }: Props) {
         </div>
 
         {/* ── Metric badges ────────────────────────────────────────────── */}
-        <div className="flex flex-wrap gap-2 mb-8" aria-label="Ключевые метрики">
+        <div className="flex flex-wrap gap-2 mb-8" aria-label={t.caseStudyMetricsAriaLabel}>
           {data.metrics.map((metric, i) => (
             <span
               key={i}
@@ -108,9 +113,9 @@ export default function CaseStudy({ data, isLast, hideBadge }: Props) {
         <button
           onClick={() => scrollToSection('competencies')}
           className="text-sm text-slate-400 hover:text-indigo-600 transition-colors"
-          aria-label="К матрице компетенций"
+          aria-label={t.caseStudyBackAriaLabel}
         >
-          ← К матрице компетенций
+          {t.caseStudyBackLabel}
         </button>
       </div>
     </article>

@@ -1,6 +1,11 @@
-import { whatIBringItems } from '../data';
+import { useLang } from '../LangContext';
+import { ui, useLocalizedData } from '../translations';
 
 export default function WhatIBring() {
+  const { lang } = useLang();
+  const t = ui[lang];
+  const { whatIBringItems } = useLocalizedData();
+
   return (
     <section
       id="bring"
@@ -9,13 +14,13 @@ export default function WhatIBring() {
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12">
         <p className="text-indigo-400 text-xs font-semibold tracking-widest uppercase mb-3">
-          Моя ценность
+          {t.bringLabel}
         </p>
         <h2
           id="bring-heading"
           className="text-3xl md:text-4xl font-bold text-white leading-tight mb-14"
         >
-          Ценность, которую я приношу в команду
+          {t.bringHeading}
         </h2>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

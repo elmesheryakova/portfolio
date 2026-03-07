@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Company, CaseStudyData } from '../data';
+import { useLang } from '../LangContext';
+import { ui } from '../translations';
 import CaseStudy from './CaseStudy';
 
 interface Props {
   company: Company;
   cases: CaseStudyData[];
-}
-
-function caseWord(n: number): string {
-  if (n % 10 === 1 && n % 100 !== 11) return 'кейс';
-  if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return 'кейса';
-  return 'кейсов';
 }
 
 function groupByBadge(cases: CaseStudyData[]): { badge: string; cases: CaseStudyData[] }[] {
@@ -33,6 +29,8 @@ interface GroupProps {
 }
 
 function CollapsibleGroup({ badge, cases, isLastGroup }: GroupProps) {
+  const { lang } = useLang();
+  const t = ui[lang];
   const caseIds = cases.map((cs) => cs.id);
 
   // Open on mount if the current hash matches a case in this group
@@ -63,7 +61,7 @@ function CollapsibleGroup({ badge, cases, isLastGroup }: GroupProps) {
             <div className="flex-shrink-0 w-1 h-6 rounded-full bg-indigo-400" />
             <span className="text-base font-semibold text-slate-900">{badge}</span>
             <span className="text-xs text-indigo-500 bg-indigo-50 border border-indigo-100 rounded-full px-2.5 py-0.5 font-semibold">
-              {cases.length}&nbsp;{caseWord(cases.length)}
+              {cases.length}&nbsp;{t.caseWord(cases.length)}
             </span>
           </div>
           <svg
@@ -99,6 +97,8 @@ function CollapsibleGroup({ badge, cases, isLastGroup }: GroupProps) {
 }
 
 export default function CompanyGroup({ company, cases }: Props) {
+  const { lang } = useLang();
+  const t = ui[lang];
   const groups = groupByBadge(cases);
 
   return (
@@ -127,7 +127,7 @@ export default function CompanyGroup({ company, cases }: Props) {
                 </h3>
                 <p className="text-sm font-medium text-slate-500 mb-3">{company.role}</p>
                 {company.description && (
-                  <p className="text-sm text-slate-500 leading-relaxed max-w-2xl">
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-2xl whitespace-pre-line">
                     {company.description}
                   </p>
                 )}
@@ -138,7 +138,7 @@ export default function CompanyGroup({ company, cases }: Props) {
             <div className="flex-shrink-0">
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 bg-white border border-slate-200 rounded-lg px-3 py-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-                {cases.length}&nbsp;{caseWord(cases.length)}
+                {cases.length}&nbsp;{t.caseWord(cases.length)}
               </span>
             </div>
 
