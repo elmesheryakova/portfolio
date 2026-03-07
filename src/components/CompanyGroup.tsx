@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Company, CaseStudyData } from '../data';
 import CaseStudy from './CaseStudy';
 
@@ -12,7 +13,94 @@ function caseWord(n: number): string {
   return 'кейсов';
 }
 
+function groupByBadge(cases: CaseStudyData[]): { badge: string; cases: CaseStudyData[] }[] {
+  const order: string[] = [];
+  const map = new Map<string, CaseStudyData[]>();
+  for (const cs of cases) {
+    if (!map.has(cs.competencyBadge)) {
+      order.push(cs.competencyBadge);
+      map.set(cs.competencyBadge, []);
+    }
+    map.get(cs.competencyBadge)!.push(cs);
+  }
+  return order.map((badge) => ({ badge, cases: map.get(badge)! }));
+}
+
+interface GroupProps {
+  badge: string;
+  cases: CaseStudyData[];
+  isLastGroup: boolean;
+}
+
+function CollapsibleGroup({ badge, cases, isLastGroup }: GroupProps) {
+  const caseIds = cases.map((cs) => cs.id);
+
+  // Open on mount if the current hash matches a case in this group
+  const [isOpen, setIsOpen] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return caseIds.includes(hash);
+  });
+
+  useEffect(() => {
+    function onExpandCase(e: Event) {
+      const { id } = (e as CustomEvent<{ id: string }>).detail;
+      if (caseIds.includes(id)) setIsOpen(true);
+    }
+    window.addEventListener('expand-case', onExpandCase);
+    return () => window.removeEventListener('expand-case', onExpandCase);
+  }, [caseIds]);
+
+  return (
+    <div className="border-t border-slate-100">
+      {/* ── Toggle header ───────────────────────────────────────────── */}
+      <button
+        onClick={() => setIsOpen((o) => !o)}
+        aria-expanded={isOpen}
+        className="w-full text-left"
+      >
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12 py-6 flex items-center justify-between gap-4 hover:bg-indigo-50/40 transition-colors">
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0 w-1 h-6 rounded-full bg-indigo-400" />
+            <span className="text-base font-semibold text-slate-900">{badge}</span>
+            <span className="text-xs text-indigo-500 bg-indigo-50 border border-indigo-100 rounded-full px-2.5 py-0.5 font-semibold">
+              {cases.length}&nbsp;{caseWord(cases.length)}
+            </span>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className={`flex-shrink-0 w-5 h-5 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      </button>
+
+      {/* ── Cases ───────────────────────────────────────────────────── */}
+      {isOpen && (
+        <div>
+          {cases.map((cs, i) => (
+            <CaseStudy
+              key={cs.id}
+              data={cs}
+              hideBadge
+              isLast={isLastGroup && i === cases.length - 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function CompanyGroup({ company, cases }: Props) {
+  const groups = groupByBadge(cases);
+
   return (
     <div>
       {/* ── Company header ─────────────────────────────────────────── */}
@@ -58,9 +146,14 @@ export default function CompanyGroup({ company, cases }: Props) {
         </div>
       </div>
 
-      {/* ── Cases ──────────────────────────────────────────────────── */}
-      {cases.map((cs, i) => (
-        <CaseStudy key={cs.id} data={cs} isLast={i === cases.length - 1} />
+      {/* ── Collapsible competency groups ──────────────────────────── */}
+      {groups.map((group, gi) => (
+        <CollapsibleGroup
+          key={group.badge}
+          badge={group.badge}
+          cases={group.cases}
+          isLastGroup={gi === groups.length - 1}
+        />
       ))}
     </div>
   );

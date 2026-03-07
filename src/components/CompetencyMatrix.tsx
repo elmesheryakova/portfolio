@@ -95,24 +95,29 @@ export default function CompetencyMatrix() {
                       </ul>
                     </td>
                     <td className="px-6 py-5 align-top">
-                      <button
-                        onClick={() => handleCaseClick(comp.caseLink.anchor)}
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-800 text-left leading-snug transition-colors group"
-                      >
-                        {comp.caseLink.text}
-                        <span className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          →
-                        </span>
-                      </button>
-                      {comp.relatedCases && comp.relatedCases.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-1.5">
-                          {comp.relatedCases.map((name, j) => (
-                            <span
+                      {comp.caseLinks.length === 1 ? (
+                        <button
+                          onClick={() => handleCaseClick(comp.caseLinks[0].anchor)}
+                          className="text-sm font-medium text-indigo-600 hover:text-indigo-800 text-left leading-snug transition-colors group"
+                        >
+                          {comp.caseLinks[0].text}
+                          <span className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                        </button>
+                      ) : (
+                        <div className="flex flex-col gap-1.5">
+                          {comp.caseLinks.map((link, j) => (
+                            <button
                               key={j}
-                              className="inline-block text-xs text-slate-400 bg-slate-100 rounded-md px-2 py-0.5"
+                              onClick={() => handleCaseClick(link.anchor)}
+                              className="flex items-start gap-2 text-left rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 hover:border-indigo-200 hover:bg-indigo-50 transition-colors group"
                             >
-                              {name}
-                            </span>
+                              <span className="flex-shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-100 text-indigo-500 text-[10px] font-bold flex items-center justify-center">
+                                {j + 1}
+                              </span>
+                              <span className="text-sm font-medium text-indigo-600 group-hover:text-indigo-800 leading-snug transition-colors">
+                                {link.text}
+                              </span>
+                            </button>
                           ))}
                         </div>
                       )}
@@ -159,22 +164,28 @@ export default function CompetencyMatrix() {
                 </div>
               </div>
 
-              <button
-                onClick={() => handleCaseClick(comp.caseLink.anchor)}
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
-              >
-                {comp.caseLink.text} →
-              </button>
-
-              {comp.relatedCases && comp.relatedCases.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {comp.relatedCases.map((name, j) => (
-                    <span
+              {comp.caseLinks.length === 1 ? (
+                <button
+                  onClick={() => handleCaseClick(comp.caseLinks[0].anchor)}
+                  className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors text-left"
+                >
+                  {comp.caseLinks[0].text} →
+                </button>
+              ) : (
+                <div className="flex flex-col gap-1.5">
+                  {comp.caseLinks.map((link, j) => (
+                    <button
                       key={j}
-                      className="inline-block text-xs text-slate-400 bg-slate-100 rounded-md px-2 py-0.5"
+                      onClick={() => handleCaseClick(link.anchor)}
+                      className="flex items-start gap-2 text-left rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 hover:border-indigo-200 hover:bg-indigo-50 transition-colors group"
                     >
-                      {name}
-                    </span>
+                      <span className="flex-shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-100 text-indigo-500 text-[10px] font-bold flex items-center justify-center">
+                        {j + 1}
+                      </span>
+                      <span className="text-sm font-medium text-indigo-600 group-hover:text-indigo-800 leading-snug transition-colors">
+                        {link.text}
+                      </span>
+                    </button>
                   ))}
                 </div>
               )}

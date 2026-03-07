@@ -13,12 +13,20 @@ const navItems: NavItem[] = [
 ];
 
 export function scrollToSection(id: string) {
-  const el = document.getElementById(id);
-  if (el) {
-    const offset = 72;
-    const top = el.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
+  // Signal collapsible groups to expand before scrolling
+  window.dispatchEvent(new CustomEvent('expand-case', { detail: { id } }));
+
+  // Wait for React to re-render the expanded content before measuring position
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        const offset = 72;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
 }
 
 export default function Nav() {

@@ -4,9 +4,10 @@ import { scrollToSection } from './Nav';
 interface Props {
   data: CaseStudyData;
   isLast?: boolean;
+  hideBadge?: boolean;
 }
 
-export default function CaseStudy({ data, isLast }: Props) {
+export default function CaseStudy({ data, isLast, hideBadge }: Props) {
   return (
     <article
       id={data.id}
@@ -17,9 +18,11 @@ export default function CaseStudy({ data, isLast }: Props) {
 
         {/* ── Header ──────────────────────────────────────────────────── */}
         <div className="mb-10">
-          <span className="inline-block text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 mb-5">
-            {data.competencyBadge}
-          </span>
+          {!hideBadge && (
+            <span className="inline-block text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 mb-5">
+              {data.competencyBadge}
+            </span>
+          )}
           <h3
             id={`${data.id}-title`}
             className="text-2xl md:text-3xl font-bold text-slate-900 max-w-2xl leading-snug"
