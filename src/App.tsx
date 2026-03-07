@@ -1,6 +1,7 @@
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import ExecutiveSummary from './components/ExecutiveSummary';
+import DataDriven from './components/DataDriven';
 import CompetencyMatrix from './components/CompetencyMatrix';
 import CasesSection from './components/CasesSection';
 import WhatIBring from './components/WhatIBring';
@@ -15,6 +16,7 @@ export default function App() {
       <main>
         <Hero />
         <ExecutiveSummary />
+        <DataDriven />
         <CompetencyMatrix />
 
         {/*
