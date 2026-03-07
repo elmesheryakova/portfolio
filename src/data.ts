@@ -12,8 +12,22 @@ export interface Competency {
   relatedCases?: string[];
 }
 
+// ─── Company ──────────────────────────────────────────────────────────────────
+// Чтобы добавить компанию: добавь объект в companies[] ниже.
+// companyId в кейсах должен совпадать с Company.id.
+
+export interface Company {
+  id: string;
+  name: string;         // Название компании
+  role: string;         // Твоя роль
+  period: string;       // Например: "2023 — н.в."
+  industry?: string;    // Отрасль
+  description?: string; // Краткий контекст (опционально)
+}
+
 export interface CaseStudyData {
   id: string;
+  companyId: string;    // Должен совпадать с Company.id
   competencyBadge: string;
   title: string;
   situation: string;
@@ -180,13 +194,35 @@ export const competencies: Competency[] = [
   },
 ];
 
+// ─── Companies ────────────────────────────────────────────────────────────────
+// Порядок определяет порядок отображения в секции кейсов.
+
+export const companies: Company[] = [
+  {
+    id: 'company-a',
+    name: 'Название компании А',
+    role: 'Technical Project / Delivery Manager',
+    period: '2023 — н.в.',
+    industry: 'Добавь отрасль',
+    description: 'Краткий контекст о компании (опционально)',
+  },
+  {
+    id: 'company-b',
+    name: 'Название компании Б',
+    role: 'Project Manager',
+    period: '2021 — 2023',
+    industry: 'Добавь отрасль',
+  },
+];
+
 // ─── Case Studies ─────────────────────────────────────────────────────────────
-// Чтобы добавить новый кейс: скопируй один из объектов ниже и заполни все поля.
-// id должен совпадать с anchor в матрице компетенций (без символа #).
+// Чтобы добавить новый кейс: скопируй объект ниже, заполни поля,
+// убедись что companyId совпадает с одним из Company.id выше.
 
 export const caseStudies: CaseStudyData[] = [
   {
     id: 'case-qa-techdebt',
+    companyId: 'company-a',
     competencyBadge: 'Решения на основе данных',
     title: 'Оптимизация QA-процессов и снижение технического долга',
     // ↓ Заполни реальным содержимым
@@ -209,6 +245,7 @@ export const caseStudies: CaseStudyData[] = [
   },
   {
     id: 'case-performance-review',
+    companyId: 'company-b',
     competencyBadge: 'Управление людьми',
     title: 'Система performance review',
     // ↓ Заполни реальным содержимым
