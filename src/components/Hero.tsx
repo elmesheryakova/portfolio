@@ -11,22 +11,22 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Hero"
-      className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-white via-slate-50 to-indigo-50/60 pt-16"
+      className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950 pt-16"
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12 py-20 md:py-28">
         <div>
           {/* Label */}
-          <p className="text-indigo-600 text-xs font-semibold tracking-widest uppercase mb-5">
+          <p className="text-indigo-400 text-xs font-semibold tracking-widest uppercase mb-5">
             {t.heroLabel}
           </p>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-6">
             {t.heroHeadline}
           </h1>
 
           {/* Sub-headline */}
-          <p className="text-lg sm:text-xl text-slate-500 leading-relaxed mb-12">
+          <p className="text-lg sm:text-xl text-slate-400 leading-relaxed mb-12">
             {t.heroSubheadline}
           </p>
 
@@ -38,13 +38,13 @@ export default function Hero() {
             {heroMetrics.map((metric, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 bg-white rounded-xl p-4 shadow-sm border border-slate-100"
+                className="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10"
               >
                 <span
                   aria-hidden="true"
                   className="mt-1 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-indigo-500"
                 />
-                <span className="text-sm text-slate-700 leading-snug whitespace-pre-line">
+                <span className="text-sm text-slate-300 leading-snug whitespace-pre-line">
                   {metric}
                 </span>
               </div>
@@ -61,7 +61,7 @@ export default function Hero() {
             </button>
             <button
               onClick={() => scrollToSection('cases')}
-              className="px-6 py-3 bg-white text-slate-800 text-sm font-semibold rounded-xl hover:bg-slate-50 active:bg-slate-100 border border-slate-200 transition-colors shadow-sm"
+              className="px-6 py-3 bg-white/10 text-white text-sm font-semibold rounded-xl hover:bg-white/15 active:bg-white/20 border border-white/20 transition-colors"
             >
               {t.heroCTACases}
             </button>

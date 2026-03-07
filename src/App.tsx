@@ -16,7 +16,7 @@ export default function App() {
       <main>
         <Hero />
         <ExecutiveSummary />
-        <DataDriven />
+        {/*<DataDriven />*/}
         <CompetencyMatrix />
 
         {/*
