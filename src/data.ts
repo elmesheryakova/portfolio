@@ -108,7 +108,7 @@ export const competencies: Competency[] = [
       '🔄 Снижение переделок после релиза',
     ],
     caseLinks: [
-      { text: 'Разрешение конфликта фаундер–продукт–BA', anchor: '#case-stakeholder-conflict' },
+      { text: 'Коммуникация между бизнесом и разработкой, выравнивание ожиданий', anchor: '#case-stakeholder-conflict' },
     ],
   },
   {
