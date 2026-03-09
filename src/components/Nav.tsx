@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLang } from '../LangContext';
 import { ui } from '../translations';
+import LogoIcon from './LogoIcon';
 
 export function scrollToSection(id: string) {
   // Signal collapsible groups to expand before scrolling
@@ -63,9 +64,17 @@ export default function Nav() {
         className="max-w-[1440px] mx-auto px-4 sm:px-8 xl:px-12 h-16 flex items-center justify-between"
         aria-label={t.navAriaLabel}
       >
-        <span className="text-sm font-semibold text-slate-900 tracking-wide whitespace-nowrap">
-          Portfolio
-        </span>
+        <div className="flex items-center gap-2.5">
+          <LogoIcon className="h-8 w-8 flex-shrink-0" />
+          <div className="flex flex-col leading-none">
+            <span className="text-[14px] font-semibold text-slate-900 whitespace-nowrap">
+              {t.ownerName}
+            </span>
+            <span className="text-[11px] font-medium text-indigo-500 mt-0.5 whitespace-nowrap">
+              Portfolio
+            </span>
+          </div>
+        </div>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1" role="list">
@@ -75,7 +84,7 @@ export default function Nav() {
               role="listitem"
               onClick={() => scrollToSection(id)}
               aria-current={activeSection === id ? 'location' : undefined}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg text-[15px] font-medium transition-colors ${
                 activeSection === id
                   ? 'text-indigo-600 bg-indigo-50'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'

@@ -11,6 +11,7 @@ import {
 
 export const ui = {
   ru: {
+    ownerName: 'Елена Мещерякова',
     navAriaLabel: 'Основная навигация',
     navItems: [
       { label: 'О себе', id: 'summary' },
@@ -84,6 +85,7 @@ export const ui = {
   },
 
   en: {
+    ownerName: 'Elena Meshcheriakova',
     navAriaLabel: 'Main navigation',
     navItems: [
       { label: 'About', id: 'summary' },
